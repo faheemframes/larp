@@ -353,7 +353,7 @@ export default function LarpApp() {
 
       {/* Minimal Footer */}
       <footer className="pt-6 text-center text-[10px] text-neutral-400 lowercase font-mono flex items-center justify-between">
-        <span>larp · for the top 1% performative and niche</span>
+        <span>the larp machine</span>
         <a
           href="https://qubitsorg.netlify.app/"
           target="_blank"
