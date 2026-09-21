@@ -21,6 +21,13 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   title: "larp. — for the top 1% performative and niche",
   description: "for the top 1% performative and niche.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: "/apple-icon.png",
+  },
 };
 
 export const viewport: Viewport = {
