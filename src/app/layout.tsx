@@ -20,7 +20,7 @@ const newsreader = Newsreader({
 
 export const metadata: Metadata = {
   title: "larp. — for the top 1% performative and niche",
-  description: "for the top 1% performative and niche. turn normal thoughts into unbearable lore. built by faheemframes and qubitsorg.",
+  description: "for the top 1% performative and niche. by qubitsorg.",
   keywords: [
     "larp",
     "what is larp",
@@ -29,13 +29,12 @@ export const metadata: Metadata = {
     "how to be niche",
     "how to yap",
     "qubitsorg",
-    "faheemframes",
     "lore generator",
     "comedy writing",
     "twitter monologue",
   ],
-  authors: [{ name: "faheemframes", url: "https://github.com/faheemframes" }],
-  creator: "faheemframes",
+  authors: [{ name: "qubitsorg", url: "https://qubitsorg.netlify.app/" }],
+  creator: "qubitsorg",
   publisher: "qubitsorg",
   icons: {
     icon: [
@@ -46,13 +45,13 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "larp. — for the top 1% performative and niche",
-    description: "turn normal thoughts into unbearable lore. built by faheemframes and qubitsorg.",
+    description: "turn normal thoughts into unbearable lore. by qubitsorg.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "larp. — for the top 1% performative and niche",
-    description: "turn normal thoughts into unbearable lore.",
+    description: "turn normal thoughts into unbearable lore. by qubitsorg.",
   },
 };
 
@@ -74,14 +73,14 @@ const jsonLd = {
       "applicationCategory": "EntertainmentApplication",
       "operatingSystem": "All",
       "author": {
-        "@type": "Person",
-        "name": "faheemframes",
-        "url": "https://github.com/faheemframes"
+        "@type": "Organization",
+        "name": "qubitsorg",
+        "url": "https://qubitsorg.netlify.app/"
       },
       "publisher": {
         "@type": "Organization",
         "name": "qubitsorg",
-        "url": "https://qubits.org"
+        "url": "https://qubitsorg.netlify.app/"
       },
       "offers": {
         "@type": "Offer",
@@ -97,7 +96,7 @@ const jsonLd = {
           "name": "what is larp?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "larp originally refers to live action role-playing, but in modern internet culture it describes someone performing an identity, expertise, lifestyle, or obsession as though they are deeply immersed in it. the larp tool by faheemframes and qubitsorg turns normal statements into absurdly elaborate, performative monologues."
+            "text": "larp originally refers to live action role-playing, but in modern internet culture it describes someone performing an identity, expertise, lifestyle, or obsession as though they are deeply immersed in it. the larp tool by qubitsorg turns normal statements into absurdly elaborate, performative monologues."
           }
         },
         {
@@ -137,7 +136,7 @@ const jsonLd = {
           "name": "who built larp?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "larp was created by faheemframes and published by qubitsorg as a minimalist internet writing tool."
+            "text": "larp was created and published by qubitsorg (https://qubitsorg.netlify.app/) as a minimalist internet writing tool."
           }
         }
       ]

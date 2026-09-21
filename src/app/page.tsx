@@ -348,13 +348,20 @@ export default function LarpApp() {
         <h2>how to yap?</h2>
         <p>yapping is the art of stream-of-consciousness monologues that deliver maximum comedic entertainment without generic ai filler.</p>
         <h2>credits</h2>
-        <p>larp created by faheemframes and published by qubitsorg.</p>
+        <p>larp created and published by qubitsorg (https://qubitsorg.netlify.app/).</p>
       </section>
 
       {/* Minimal Footer */}
       <footer className="pt-6 text-center text-[10px] text-neutral-400 lowercase font-mono flex items-center justify-between">
         <span>larp · for the top 1% performative and niche</span>
-        <span>by faheemframes · qubitsorg</span>
+        <a
+          href="https://qubitsorg.netlify.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-pink-600 transition-colors underline-offset-2 hover:underline"
+        >
+          by qubitsorg
+        </a>
       </footer>
     </main>
   );
