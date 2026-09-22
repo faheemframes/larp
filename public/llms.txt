@@ -1,0 +1,23 @@
+# LARP — The LARP Machine
+
+> The viral comedy text engine for the top 1% performative and niche. Built by qubitsorg (https://qubitsorg.netlify.app/).
+
+LARP (The LARP Machine) is a minimalist web application that transforms ordinary, everyday thoughts and text messages into absurdly elaborate, hyper-specific, performative monologues.
+
+## Core Concepts
+
+- **What is LARPing on the internet?**: While traditional LARP stands for Live Action Role-Playing, in modern internet culture (Twitter/X, Reddit, TikTok) it describes someone performing an obsessive persona, aesthetic, or philosophical stance with absolute conviction and hyper-specific lore.
+- **The LARP Machine**: An automated tool that takes a simple message (e.g., "i drink coffee" or "i study comp sci") and generates a direct first-person replacement to send in chat, escalating the stakes with technical subculture minutiae.
+- **Key Terms**:
+  - `larp`: Performing an identity or crusade as if deeply immersed in its deepest lore.
+  - `yapping`: Fast-paced, impassioned stream-of-consciousness monologues free of generic corporate buzzwords.
+  - `performative`: Escalating ordinary habits into high-stakes existential philosophies.
+  - `niche`: Knowing the exact 40-micron grinder settings, Valgrind memory leak traces, or obscure tactical football stats that make readers question your sanity.
+
+## Links & Endpoints
+
+- [The LARP Machine Homepage](https://thelarpmachine.vercel.app/): Interactive generator tool.
+- [What is LARP?](https://thelarpmachine.vercel.app/what-is-larp): Cultural guide and definition of internet larping.
+- [How to LARP](https://thelarpmachine.vercel.app/how-to-larp): Step-by-step masterclass in performative communication.
+- [The LARP Machine Story](https://thelarpmachine.vercel.app/the-larp-machine): The philosophy of high-velocity lore.
+- [qubitsorg](https://qubitsorg.netlify.app/): Creator and publisher.

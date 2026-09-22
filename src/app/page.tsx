@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { ArrowRight, Copy, Check, Share2, RotateCcw, AlertCircle, Sparkles } from "lucide-react";
 
 const EXAMPLE_PROMPTS = [
@@ -340,20 +341,23 @@ export default function LarpApp() {
       {/* Hidden crawlable Knowledge Base for SEO, AEO & GEO engines */}
       <section aria-label="knowledge base" className="sr-only">
         <h2>what is larp?</h2>
-        <p>larp stands for live action role-playing, but on the internet it means performing an obsession or persona with total seriousness. this tool takes ordinary thoughts and turns them into performative monologues.</p>
+        <p>larp stands for live action role-playing, but on the internet it means performing an obsession or persona with total seriousness. read our full guide at <Link href="/what-is-larp">what is larp</Link>.</p>
         <h2>how to larp?</h2>
-        <p>input any normal thought and replace it with a hyper-specific, lore-heavy monologue full of domain details and unhinged conviction.</p>
-        <h2>how to be performative and niche?</h2>
-        <p>treat every mundane topic as high-stakes art, cite obscure specifics, and speak with unwavering confidence.</p>
-        <h2>how to yap?</h2>
-        <p>yapping is the art of stream-of-consciousness monologues that deliver maximum comedic entertainment without generic ai filler.</p>
+        <p>learn the art of performative monologues and niche yapping at <Link href="/how-to-larp">how to larp</Link>.</p>
+        <h2>the larp machine</h2>
+        <p>read the story behind the engine at <Link href="/the-larp-machine">the larp machine manifesto</Link>.</p>
         <h2>credits</h2>
         <p>larp created and published by qubitsorg (https://qubitsorg.netlify.app/).</p>
       </section>
 
       {/* Minimal Footer */}
       <footer className="pt-6 text-center text-[10px] text-neutral-400 lowercase font-mono flex items-center justify-between">
-        <span>the larp machine</span>
+        <Link
+          href="/the-larp-machine"
+          className="hover:text-neutral-700 transition-colors"
+        >
+          the larp machine
+        </Link>
         <a
           href="https://qubitsorg.netlify.app/"
           target="_blank"
