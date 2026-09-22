@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,16 +19,28 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: "larp. — for the top 1% performative and niche",
-  description: "for the top 1% performative and niche. by qubitsorg.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "larp. — for the top 1% performative and niche",
+    template: "%s | larp.",
+  },
+  description: "the larp machine. turn normal thoughts into unbearable lore for the top 1% performative and niche. by qubitsorg.",
   keywords: [
     "larp",
+    "the larp machine",
+    "larp machine",
     "what is larp",
     "how to larp",
+    "larp generator",
+    "larping",
     "how to be performative",
     "how to be niche",
     "how to yap",
+    "yapping generator",
+    "performative monologue",
     "qubitsorg",
     "lore generator",
     "comedy writing",
@@ -36,6 +49,9 @@ export const metadata: Metadata = {
   authors: [{ name: "qubitsorg", url: "https://qubitsorg.netlify.app/" }],
   creator: "qubitsorg",
   publisher: "qubitsorg",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -44,14 +60,29 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "larp. — for the top 1% performative and niche",
+    title: "larp. — the larp machine",
     description: "turn normal thoughts into unbearable lore. by qubitsorg.",
+    url: siteUrl,
+    siteName: "the larp machine",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "larp. — for the top 1% performative and niche",
+    title: "larp. — the larp machine",
     description: "turn normal thoughts into unbearable lore. by qubitsorg.",
+    creator: "@qubitsorg",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -68,8 +99,9 @@ const jsonLd = {
     {
       "@type": "WebApplication",
       "name": "LARP",
-      "alternateName": ["larp", "larp generator", "the monologue engine"],
-      "description": "The viral comedy tool for the top 1% performative and niche. Turn normal thoughts into unbearable lore.",
+      "url": siteUrl,
+      "alternateName": ["larp", "larp generator", "the larp machine", "the monologue engine"],
+      "description": "the viral comedy tool for the top 1% performative and niche. turn normal thoughts into unbearable lore.",
       "applicationCategory": "EntertainmentApplication",
       "operatingSystem": "All",
       "author": {
