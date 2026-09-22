@@ -1,4 +1,4 @@
-# larp. — the larp machine
+# the larp machine
 
 <div align="center">
 
@@ -19,7 +19,7 @@
 
 ## ⚡ What is the LARP Machine?
 
-**LARP** (The LARP Machine) is an AI comedy writing engine and internet monologue generator. It takes an ordinary, everyday human statement (*"i drink coffee"*, *"i like messi"*, *"i study computer science"*) and instantly transforms it into a hyper-specific, performative, lore-heavy monologue to paste into your DMs or post on the timeline.
+**the larp machine** is an AI comedy writing engine and internet monologue generator. It takes an ordinary, everyday human statement (*"i drink coffee"*, *"i like messi"*, *"i study computer science"*) and instantly transforms it into a hyper-specific, performative, lore-heavy monologue to paste into your DMs or post on the timeline.
 
 Unlike generic AI assistants that output corporate jargon and buzzwords like *"tapestry"* or *"testament"*, **the larp machine** is engineered strictly with authentic human internet cadence — drawing directly from late-night group chats, niche subculture threads, and high-velocity Twitter/Reddit prose.
 

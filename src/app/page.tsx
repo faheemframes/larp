@@ -139,7 +139,7 @@ export default function LarpApp() {
     if (canShare && navigator.share) {
       try {
         await navigator.share({
-          title: "larp",
+          title: "the larp machine",
           text: larpResult,
           url: window.location.href,
         });
@@ -170,8 +170,8 @@ export default function LarpApp() {
     <main className="min-h-screen flex flex-col justify-between px-4 py-8 sm:py-12 max-w-lg mx-auto w-full">
       {/* Minimal Header */}
       <header className="text-center pb-6 sm:pb-8">
-        <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-neutral-900 mb-1.5 lowercase">
-          larp<span className="text-pink-400">.</span>
+        <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-neutral-900 mb-1.5 lowercase">
+          the larp machine<span className="text-pink-400">.</span>
         </h1>
         <p className="text-xs sm:text-sm text-neutral-400 font-light lowercase">
           for the top 1% performative and niche.

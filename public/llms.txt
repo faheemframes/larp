@@ -1,8 +1,8 @@
-# LARP — The LARP Machine
+# the larp machine
 
 > The viral comedy text engine for the top 1% performative and niche. Built by qubitsorg (https://qubitsorg.netlify.app/).
 
-LARP (The LARP Machine) is a minimalist web application that transforms ordinary, everyday thoughts and text messages into absurdly elaborate, hyper-specific, performative monologues.
+the larp machine is a minimalist web application that transforms ordinary, everyday thoughts and text messages into absurdly elaborate, hyper-specific, performative monologues.
 
 ## Core Concepts
 

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "larp. — for the top 1% performative and niche";
+export const alt = "the larp machine — for the top 1% performative and niche";
 export const size = {
   width: 1200,
   height: 630,
@@ -36,20 +36,20 @@ export default async function Image() {
             style={{
               display: "flex",
               alignItems: "baseline",
-              fontSize: 120,
+              fontSize: 84,
               fontWeight: 700,
               color: "#18181b",
               lineHeight: 1,
               marginBottom: 24,
             }}
           >
-            <span>larp</span>
+            <span>the larp machine</span>
             <span
               style={{
                 display: "flex",
-                width: 24,
-                height: 24,
-                borderRadius: 12,
+                width: 20,
+                height: 20,
+                borderRadius: 10,
                 backgroundColor: "#f472b6",
                 marginLeft: 8,
               }}

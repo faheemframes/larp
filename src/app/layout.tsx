@@ -24,13 +24,13 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "larp. — for the top 1% performative and niche",
-    template: "%s | larp.",
+    default: "the larp machine — for the top 1% performative and niche",
+    template: "%s | the larp machine",
   },
   description: "the larp machine. turn normal thoughts into unbearable lore for the top 1% performative and niche. by qubitsorg.",
   keywords: [
-    "larp",
     "the larp machine",
+    "larp",
     "larp machine",
     "what is larp",
     "how to larp",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "larp. — the larp machine",
+    title: "the larp machine",
     description: "turn normal thoughts into unbearable lore. by qubitsorg.",
     url: siteUrl,
     siteName: "the larp machine",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "larp. — the larp machine",
+    title: "the larp machine",
     description: "turn normal thoughts into unbearable lore. by qubitsorg.",
     creator: "@qubitsorg",
   },
@@ -98,9 +98,9 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "LARP",
+      "name": "the larp machine",
       "url": siteUrl,
-      "alternateName": ["larp", "larp generator", "the larp machine", "the monologue engine"],
+      "alternateName": ["the larp machine", "larp", "larp generator", "the monologue engine"],
       "description": "the viral comedy tool for the top 1% performative and niche. turn normal thoughts into unbearable lore.",
       "applicationCategory": "EntertainmentApplication",
       "operatingSystem": "All",
