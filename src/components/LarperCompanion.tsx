@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { sound } from "@/lib/sound";
-import { X, Sparkles } from "lucide-react";
+import { X } from "lucide-react";
 
 interface LarperCompanionProps {
   isLoading: boolean;
@@ -11,25 +11,19 @@ interface LarperCompanionProps {
   intensity: "casual" | "unbearable" | "existential";
 }
 
-const LORE_QUOTES = [
-  // Definitions of internet lore terms
-  "larp = performing an obsession with 100% conviction.",
-  "lore = turning a normal habit into an 8-season anime backstory.",
-  "yap = high-velocity monologue with zero corporate filler.",
-  "niche = knowing the exact micron setting on your burrs.",
-  "performative = treating iced coffee like the fall of rome.",
-  "mogging = looking vastly superior in the group chat.",
-  // Meme & Mogging banter
+const COMPACT_LORE_QUOTES = [
   "say something normal. let me mog it.",
-  "bro is about to mog the group chat with pure lore.",
-  "if your text doesn't read like a manifesto, delete it.",
-  "casual texting is for amateurs. we craft lore here.",
-  "41.5 microns or bust. don't drink hot dirt water.",
+  "larp = 100% conviction.",
+  "lore = deep anime backstory.",
+  "yap = high velocity, zero filler.",
+  "niche = knowing exact burr microns.",
   "chiseled jaw, zero corporate buzzwords.",
-  "poking me won't fix your weak monologue bro.",
-  "i don't just send texts. i perform them.",
-  "drop a thought. i'll make it unbearable.",
-  "treat your mundane habits like an existential crusade.",
+  "41.5 microns or hot dirt water.",
+  "i don't text. i perform.",
+  "make it performative or delete it.",
+  "bro is about to mog the group chat.",
+  "treat coffee like the fall of rome.",
+  "casual small talk is for mortals.",
 ];
 
 export default function LarperCompanion({
@@ -52,7 +46,7 @@ export default function LarperCompanion({
   useEffect(() => {
     const glintInterval = setInterval(() => {
       setIsBlinking(true);
-      setTimeout(() => setIsBlinking(false), 220);
+      setTimeout(() => setIsBlinking(false), 200);
     }, 4000);
     return () => clearInterval(glintInterval);
   }, []);
@@ -60,7 +54,7 @@ export default function LarperCompanion({
   // React to loading state
   useEffect(() => {
     if (isLoading && !prevLoadingRef.current) {
-      setBubbleText("synthesizing high-density lore... lock in.");
+      setBubbleText("cooking lore... lock in.");
       setBubbleVisible(true);
     }
     prevLoadingRef.current = isLoading;
@@ -72,9 +66,9 @@ export default function LarperCompanion({
       if (intensity === "existential") {
         setBubbleText("existential crisis unlocked. you're mogging everyone.");
       } else if (intensity === "casual") {
-        setBubbleText("razor sharp. dismissive. elite.");
+        setBubbleText("short, rude, and elite.");
       } else {
-        setBubbleText("unbearable lore delivered. paste it and mute the thread.");
+        setBubbleText("unbearable lore delivered. go mog the chat.");
       }
       setBubbleVisible(true);
       triggerPose();
@@ -85,7 +79,7 @@ export default function LarperCompanion({
   // React to copy
   useEffect(() => {
     if (isCopied && !prevCopiedRef.current) {
-      setBubbleText("copied. they aren't ready for this level of lore.");
+      setBubbleText("copied! they aren't ready.");
       setBubbleVisible(true);
       triggerPose();
     }
@@ -94,7 +88,7 @@ export default function LarperCompanion({
 
   const triggerPose = () => {
     setIsPoking(true);
-    setTimeout(() => setIsPoking(false), 450);
+    setTimeout(() => setIsPoking(false), 400);
   };
 
   const handlePoke = () => {
@@ -103,15 +97,16 @@ export default function LarperCompanion({
     setPokeCount((prev) => prev + 1);
 
     if (isLoading) {
-      setBubbleText("cooking right now. do not rush the lore.");
+      setBubbleText("cooking right now. do not rush.");
       setBubbleVisible(true);
       return;
     }
 
     if (pokeCount >= 5 && pokeCount % 5 === 0) {
-      setBubbleText("you poked me 5 times. go larp something on the timeline.");
+      setBubbleText("5 pokes. go larp something.");
     } else {
-      const nextQuote = LORE_QUOTES[Math.floor(Math.random() * LORE_QUOTES.length)];
+      const nextQuote =
+        COMPACT_LORE_QUOTES[Math.floor(Math.random() * COMPACT_LORE_QUOTES.length)];
       setBubbleText(nextQuote);
     }
     setBubbleVisible(true);
@@ -120,125 +115,161 @@ export default function LarperCompanion({
   return (
     <aside
       aria-label="the larper companion"
-      className="fixed bottom-24 right-3.5 z-40 flex flex-col items-end pointer-events-none select-none sm:bottom-28 sm:right-6 lg:top-32 lg:bottom-auto lg:right-10 xl:right-16"
+      className="fixed bottom-28 right-2.5 z-40 flex flex-col items-end pointer-events-none select-none sm:bottom-32 sm:right-4 lg:top-36 lg:bottom-auto lg:right-6 xl:right-12"
     >
-      {/* Speech Bubble */}
+      {/* Compact, Non-Overlapping Speech Bubble */}
       {bubbleVisible && (
         <div
           role="status"
           aria-live="polite"
-          className="pointer-events-auto relative max-w-[210px] sm:max-w-[240px] mb-2 p-2.5 rounded-2xl bg-white border border-neutral-200/90 shadow-lg shadow-neutral-200/40 text-[11px] font-sans leading-relaxed text-neutral-800 lowercase animate-in fade-in slide-in-from-bottom-2 duration-200"
+          className="pointer-events-auto relative max-w-[155px] sm:max-w-[175px] mb-1.5 p-2 rounded-xl bg-white border border-neutral-200/90 shadow-md shadow-neutral-200/50 text-[10px] sm:text-[10.5px] font-sans leading-tight text-neutral-800 lowercase animate-in fade-in slide-in-from-bottom-1 duration-150"
         >
           {/* Top header with name & close */}
-          <div className="flex items-center justify-between pb-1 border-b border-neutral-100 mb-1.5">
-            <span className="font-mono text-[9px] text-neutral-900 font-semibold inline-flex items-center gap-1.5 uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse" />
+          <div className="flex items-center justify-between pb-0.5 border-b border-neutral-100 mb-1">
+            <span className="font-mono text-[8px] text-neutral-900 font-bold inline-flex items-center gap-1 uppercase tracking-wider">
+              <span className="w-1 h-1 rounded-full bg-pink-500 animate-pulse" />
               the larper
             </span>
             <button
               onClick={() => setBubbleVisible(false)}
-              className="text-neutral-400 hover:text-neutral-700 transition-colors p-0.5 rounded cursor-pointer"
-              title="close message"
+              className="text-neutral-300 hover:text-neutral-600 transition-colors p-0.5 rounded cursor-pointer"
+              title="close"
             >
-              <X className="w-3 h-3" />
+              <X className="w-2.5 h-2.5" />
             </button>
           </div>
 
-          <p className="pr-1 text-neutral-700 leading-snug">{bubbleText}</p>
+          <p className="text-neutral-700 leading-snug">{bubbleText}</p>
 
           {/* Bubble beak pointing to character */}
-          <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-r border-b border-neutral-200/90 transform rotate-45" />
+          <div className="absolute -bottom-1 right-5 w-2 h-2 bg-white border-r border-b border-neutral-200/90 transform rotate-45" />
         </div>
       )}
 
-      {/* The Mogging LARPer Character (Clickable / Interactive) */}
+      {/* Cartoon Gigachad Character (Interactive / Pokeable) */}
       <button
         onClick={handlePoke}
         title="poke the larper"
-        className={`pointer-events-auto relative cursor-pointer outline-none transition-all duration-200 active:scale-90 hover:scale-105 ${
+        className={`pointer-events-auto relative cursor-pointer outline-none transition-transform duration-200 active:scale-90 hover:scale-105 ${
           isPoking ? "scale-105" : ""
         }`}
       >
         <svg
-          width="62"
-          height="66"
-          viewBox="0 0 62 66"
+          width="58"
+          height="64"
+          viewBox="0 0 58 64"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="drop-shadow-md filter"
         >
-          {/* Ground Contact Shadow */}
-          <ellipse cx="31" cy="62" rx="16" ry="3" fill="#18181b" opacity="0.08" />
+          {/* Subtle Ground Shadow */}
+          <ellipse cx="29" cy="62" rx="14" ry="2" fill="#18181b" opacity="0.08" />
 
-          {/* Cyber Knight Helmet Plume / Antenna */}
+          {/* Strong Traps / Neck Silhouette */}
           <path
-            d="M 31 16 L 31 4"
+            d="M 18 48 L 12 60 L 46 60 L 40 48 Z"
+            fill="#ffffff"
             stroke="#18181b"
-            strokeWidth="2"
-            strokeLinecap="round"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
           />
-          <circle cx="31" cy="4" r="3" fill="#f472b6" />
-          <circle cx="31" cy="4" r="1.2" fill="#ffffff" />
 
-          {/* Defined Chiseled Silhouette (Head / Helmet with defined jawline) */}
+          {/* Iconic Gigachad Chiseled Head & Razor-Sharp Jawline */}
           <path
-            d="M 14 20 Q 14 14 31 13 Q 48 14 48 20 L 48 38 Q 48 48 31 56 Q 14 48 14 38 Z"
+            d="M 16 22 L 15 36 Q 16 46 29 53 Q 42 46 43 36 L 42 22 Z"
             fill="#ffffff"
             stroke="#18181b"
             strokeWidth="2"
             strokeLinejoin="round"
           />
 
-          {/* Sleek Dark Cyber Shades / Visor (Mogging Glasses) */}
-          <g transform={isPoking ? "translate(0, 3)" : "translate(0, 0)"} className="transition-transform duration-150">
-            {/* Sunglasses Frame */}
-            <rect
-              x="16"
-              y="23"
-              width="30"
-              height="13"
-              rx="3"
+          {/* High Angular Cheekbones */}
+          <path
+            d="M 16 32 L 20 37"
+            stroke="#18181b"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+          <path
+            d="M 42 32 L 38 37"
+            stroke="#18181b"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+
+          {/* Iconic Swept-Back Voluminous Chad Hair */}
+          <path
+            d="M 13 24 Q 10 12 20 7 Q 29 2 40 6 Q 48 10 44 24 Q 38 15 28 15 Q 18 15 13 24 Z"
+            fill="#18181b"
+            stroke="#18181b"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          {/* Hair Highlight Strand */}
+          <path
+            d="M 22 8 Q 30 5 38 9"
+            stroke="#f472b6"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+
+          {/* Sleek Dark Chad Sunglasses */}
+          <g
+            transform={isPoking ? "translate(0, 2)" : "translate(0, 0)"}
+            className="transition-transform duration-150"
+          >
+            {/* Left & Right Lenses with sharp angular curve */}
+            <path
+              d="M 16 26 L 27 26 L 26 34 L 18 34 Z"
               fill="#18181b"
+              stroke="#18181b"
+              strokeWidth="1.2"
+            />
+            <path
+              d="M 31 26 L 42 26 L 40 34 L 32 34 Z"
+              fill="#18181b"
+              stroke="#18181b"
+              strokeWidth="1.2"
             />
             {/* Bridge */}
-            <rect x="29" y="25" width="4" height="2" fill="#18181b" />
+            <line x1="27" y1="28" x2="31" y2="28" stroke="#18181b" strokeWidth="1.8" />
 
-            {/* Neon Pink Glint on Shades */}
+            {/* Neon Pink Glint on Sunglasses */}
             {isLoading ? (
               <line
                 x1="18"
-                y1="29"
-                x2="44"
-                y2="29"
+                y1="30"
+                x2="40"
+                y2="30"
                 stroke="#f472b6"
-                strokeWidth="2"
+                strokeWidth="1.8"
                 className="animate-pulse"
               />
             ) : isBlinking ? (
               <line
                 x1="20"
-                y1="25"
-                x2="28"
+                y1="28"
+                x2="24"
                 y2="33"
                 stroke="#ffffff"
-                strokeWidth="1.8"
+                strokeWidth="1.6"
                 strokeLinecap="round"
               />
             ) : (
               <>
                 <line
-                  x1="20"
-                  y1="25"
-                  x2="25"
+                  x1="19"
+                  y1="28"
+                  x2="23"
                   y2="33"
                   stroke="#f472b6"
                   strokeWidth="1.4"
                   strokeLinecap="round"
                 />
                 <line
-                  x1="36"
-                  y1="25"
-                  x2="41"
+                  x1="34"
+                  y1="28"
+                  x2="38"
                   y2="33"
                   stroke="#f472b6"
                   strokeWidth="1.4"
@@ -248,41 +279,46 @@ export default function LarperCompanion({
             )}
           </g>
 
-          {/* Chiseled Jawline Accent & Smirk */}
+          {/* Confident Chiseled Chad Smirk */}
           {isPoking ? (
-            /* Winking / Surprised Smirk */
+            /* Winking / Laughing Smirk */
             <path
-              d="M 28 43 Q 33 46 38 42"
+              d="M 24 42 Q 29 46 34 41"
               stroke="#18181b"
-              strokeWidth="2"
+              strokeWidth="1.8"
               strokeLinecap="round"
               fill="none"
             />
           ) : (
-            /* Confident Deadpan Mogging Smirk */
+            /* Classic Immaculate Mogging Smirk */
             <path
-              d="M 27 43 Q 32 45 37 41"
+              d="M 24 42 Q 29 44 35 39"
               stroke="#18181b"
-              strokeWidth="2"
+              strokeWidth="1.8"
               strokeLinecap="round"
               fill="none"
             />
           )}
 
-          {/* Subtle Jaw Definition Line */}
+          {/* Strong Chin Cleft */}
           <line
-            x1="31"
-            y1="49"
-            x2="31"
-            y2="52"
+            x1="29"
+            y1="47"
+            x2="29"
+            y2="50"
             stroke="#18181b"
-            strokeWidth="1.5"
+            strokeWidth="1.6"
             strokeLinecap="round"
-            opacity="0.4"
           />
 
-          {/* Minimalist Pink Crest Dot on forehead */}
-          <circle cx="31" cy="18" r="1.5" fill="#f472b6" />
+          {/* Collar / V-neck detail */}
+          <path
+            d="M 23 55 L 29 60 L 35 55"
+            stroke="#18181b"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+            fill="none"
+          />
         </svg>
       </button>
     </aside>
