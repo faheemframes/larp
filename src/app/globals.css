@@ -50,3 +50,16 @@ body {
 .animate-soft-pulse {
   animation: softPulse 1.6s ease-in-out infinite;
 }
+
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-float {
+  animation: floatAnimation 3.2s ease-in-out infinite;
+}
