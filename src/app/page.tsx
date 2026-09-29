@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { getRandomPrompt, getRandomPromptBatch } from "@/lib/prompts";
 import { sound } from "@/lib/sound";
+import LarperCompanion from "@/components/LarperCompanion";
 
 type IntensityMode = "casual" | "unbearable" | "existential";
 
@@ -462,6 +463,14 @@ export default function LarpApp() {
           by qubitsorg
         </a>
       </footer>
+
+      {/* Cute Interactive Sidekick: The Larper */}
+      <LarperCompanion
+        isLoading={loading}
+        hasResult={Boolean(larpResult)}
+        isCopied={copied}
+        intensity={intensity}
+      />
     </main>
   );
 }

@@ -151,6 +151,32 @@ class SoundManager {
       osc2.stop(now + 0.2);
     } catch {}
   }
+
+  // Cute chirpy squeak when poking the larper
+  public playSqueak() {
+    if (this.isMuted) return;
+    const ctx = this.initCtx();
+    if (!ctx) return;
+
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(520, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
+      osc.frequency.exponentialRampToValueAtTime(850, ctx.currentTime + 0.09);
+
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.09);
+    } catch {}
+  }
 }
 
 export const sound = new SoundManager();
