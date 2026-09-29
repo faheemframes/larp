@@ -11,20 +11,18 @@ interface LarperCompanionProps {
   intensity: "casual" | "unbearable" | "existential";
 }
 
-const COMPACT_LORE_QUOTES = [
-  "say something normal. let me mog it.",
-  "larp = 100% conviction.",
-  "lore = deep anime backstory.",
-  "yap = high velocity, zero filler.",
+const DEADPAN_QUOTES = [
+  "say something normal.",
+  "41.5 microns or hot tap water.",
+  "make it performative.",
+  "treat your coffee like the fall of rome.",
+  "if it isn't a manifesto, don't send it.",
+  "casual texting is for amateurs.",
+  "pure lore. zero corporate filler.",
   "niche = knowing exact burr microns.",
-  "chiseled jaw, zero corporate buzzwords.",
-  "41.5 microns or hot dirt water.",
+  "larp = 100% conviction.",
+  "paste it and mute the thread.",
   "i don't text. i perform.",
-  "make it performative or delete it.",
-  "bro is about to mog the group chat.",
-  "treat coffee like the fall of rome.",
-  "casual small talk is for mortals.",
-  "if your text isn't a manifesto, why send it?",
 ];
 
 export default function LarperCompanion({
@@ -33,7 +31,7 @@ export default function LarperCompanion({
   isCopied,
   intensity,
 }: LarperCompanionProps) {
-  const [bubbleText, setBubbleText] = useState("say something normal. let me mog it.");
+  const [bubbleText, setBubbleText] = useState("say something normal.");
   const [bubbleVisible, setBubbleVisible] = useState(true);
   const [isBlinking, setIsBlinking] = useState(false);
   const [isPoking, setIsPoking] = useState(false);
@@ -43,12 +41,12 @@ export default function LarperCompanion({
   const prevResultRef = useRef(hasResult);
   const prevCopiedRef = useRef(isCopied);
 
-  // Periodic glasses glint / lens flash
+  // Periodic glasses glint flash
   useEffect(() => {
     const glintInterval = setInterval(() => {
       setIsBlinking(true);
-      setTimeout(() => setIsBlinking(false), 260);
-    }, 4200);
+      setTimeout(() => setIsBlinking(false), 240);
+    }, 4500);
     return () => clearInterval(glintInterval);
   }, []);
 
@@ -65,11 +63,11 @@ export default function LarperCompanion({
   useEffect(() => {
     if (hasResult && !prevResultRef.current && !isLoading) {
       if (intensity === "existential") {
-        setBubbleText("existential crisis unlocked. you're mogging everyone.");
+        setBubbleText("existential crisis unlocked.");
       } else if (intensity === "casual") {
-        setBubbleText("short, rude, and elite.");
+        setBubbleText("short. dismissive. elite.");
       } else {
-        setBubbleText("unbearable lore delivered. go mog the chat.");
+        setBubbleText("paste it and mute the thread.");
       }
       setBubbleVisible(true);
       triggerPose();
@@ -80,7 +78,7 @@ export default function LarperCompanion({
   // React to copy
   useEffect(() => {
     if (isCopied && !prevCopiedRef.current) {
-      setBubbleText("copied! they aren't ready.");
+      setBubbleText("copied. they aren't ready.");
       setBubbleVisible(true);
       triggerPose();
     }
@@ -89,7 +87,7 @@ export default function LarperCompanion({
 
   const triggerPose = () => {
     setIsPoking(true);
-    setTimeout(() => setIsPoking(false), 500);
+    setTimeout(() => setIsPoking(false), 350);
   };
 
   const handlePoke = () => {
@@ -98,7 +96,7 @@ export default function LarperCompanion({
     setPokeCount((prev) => prev + 1);
 
     if (isLoading) {
-      setBubbleText("cooking right now. do not rush.");
+      setBubbleText("cooking. do not rush.");
       setBubbleVisible(true);
       return;
     }
@@ -107,7 +105,7 @@ export default function LarperCompanion({
       setBubbleText("5 pokes. go larp something.");
     } else {
       const nextQuote =
-        COMPACT_LORE_QUOTES[Math.floor(Math.random() * COMPACT_LORE_QUOTES.length)];
+        DEADPAN_QUOTES[Math.floor(Math.random() * DEADPAN_QUOTES.length)];
       setBubbleText(nextQuote);
     }
     setBubbleVisible(true);
@@ -123,7 +121,7 @@ export default function LarperCompanion({
         <div
           role="status"
           aria-live="polite"
-          className="pointer-events-auto relative max-w-[155px] sm:max-w-[170px] mb-2 p-2 rounded-xl bg-white/95 backdrop-blur-sm border border-neutral-200/90 shadow-md shadow-neutral-200/40 text-[10px] sm:text-[10.5px] font-sans leading-tight text-neutral-800 lowercase animate-in fade-in slide-in-from-bottom-1 duration-150"
+          className="pointer-events-auto relative max-w-[150px] sm:max-w-[165px] mb-2 p-2 rounded-xl bg-white/95 backdrop-blur-sm border border-neutral-200/90 shadow-md shadow-neutral-200/40 text-[10px] sm:text-[10.5px] font-sans leading-tight text-neutral-800 lowercase animate-in fade-in slide-in-from-bottom-1 duration-150"
         >
           {/* Header */}
           <div className="flex items-center justify-between pb-1 border-b border-neutral-100 mb-1">
@@ -147,108 +145,67 @@ export default function LarperCompanion({
         </div>
       )}
 
-      {/* Iconic Floating Cartoon Mascot: mr. performative */}
+      {/* Clean Deadpan Mascot: mr. performative */}
       <button
         onClick={handlePoke}
         title="poke mr. performative"
-        className={`pointer-events-auto relative cursor-pointer outline-none transition-all duration-200 active:scale-90 hover:scale-105 ${
+        className={`pointer-events-auto relative cursor-pointer outline-none transition-all duration-200 active:scale-95 hover:scale-105 ${
           isPoking ? "scale-105" : "animate-float"
         }`}
       >
         <svg
-          width="62"
-          height="62"
+          width="58"
+          height="58"
           viewBox="0 0 64 64"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="drop-shadow-md filter"
         >
-          <defs>
-            {/* Subtle Face Gradient */}
-            <linearGradient id="faceGrad" x1="32" y1="12" x2="32" y2="56" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="100%" stopColor="#fdf7f9" />
-            </linearGradient>
-            {/* Hair Shine Gradient */}
-            <linearGradient id="hairGrad" x1="10" y1="4" x2="54" y2="20" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#27272a" />
-              <stop offset="100%" stopColor="#09090b" />
-            </linearGradient>
-          </defs>
-
           {/* Subtle Ground Ambient Shadow */}
-          <ellipse cx="32" cy="59" rx="14" ry="2.5" fill="#18181b" opacity="0.12" />
+          <ellipse cx="32" cy="58" rx="13" ry="2.5" fill="#18181b" opacity="0.1" />
 
-          {/* Ears with Pink Stud */}
-          <circle cx="12" cy="33" r="3" fill="#ffffff" stroke="#18181b" strokeWidth="1.5" />
-          <circle cx="52" cy="33" r="3" fill="#ffffff" stroke="#18181b" strokeWidth="1.5" />
-          <circle cx="11.5" cy="34" r="1.2" fill="#f472b6" />
+          {/* Clean Ears (No Earring) */}
+          <circle cx="12" cy="33" r="3" fill="#ffffff" stroke="#18181b" strokeWidth="1.6" />
+          <circle cx="52" cy="33" r="3" fill="#ffffff" stroke="#18181b" strokeWidth="1.6" />
 
-          {/* Chiseled Golden-Ratio Face Contour */}
+          {/* Chiseled Clean Face Contour */}
           <path
             d="M 14 20 C 14 13, 22 11, 32 11 C 42 11, 50 13, 50 20 L 49 33 C 49 43, 39 51, 32 55 C 25 51, 15 43, 15 33 Z"
-            fill="url(#faceGrad)"
+            fill="#ffffff"
             stroke="#18181b"
             strokeWidth="2"
             strokeLinejoin="round"
           />
 
-          {/* Defined High Cheekbone Accents */}
-          <path d="M 16 30 L 20 34" stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-          <path d="M 48 30 L 44 34" stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+          {/* Subtle High Cheekbone Accents */}
+          <path d="M 16 30 L 19 33" stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
+          <path d="M 48 30 L 45 33" stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
 
-          {/* Soft Aesthetic Pink Blush Dots */}
-          <ellipse cx="19" cy="35" rx="3.2" ry="1.6" fill="#f472b6" opacity="0.35" />
-          <ellipse cx="45" cy="35" rx="3.2" ry="1.6" fill="#f472b6" opacity="0.35" />
-
-          {/* Iconic Swept-Back Chad Pompadour Hair */}
+          {/* Swept-Back Architectural Pompadour Hair */}
           <path
             d="M 11 20 C 8 8, 20 3, 32 3 C 44 2, 54 6, 52 20 C 46 12, 35 11, 23 13 C 17 14, 13 16, 11 20 Z"
-            fill="url(#hairGrad)"
+            fill="#18181b"
             stroke="#18181b"
             strokeWidth="1.8"
             strokeLinejoin="round"
           />
 
-          {/* Signature Neon-Pink Highlight Wave */}
+          {/* Signature Subtle Neon-Pink Hair Accent */}
           <path
-            d="M 22 6 C 30 4, 40 6, 47 11"
+            d="M 23 6 C 30 4, 39 6, 45 10"
             stroke="#f472b6"
-            strokeWidth="2"
+            strokeWidth="1.8"
             strokeLinecap="round"
           />
 
-          {/* Piercing Eyebrows (visible above or when shades slide) */}
-          {isPoking ? (
-            /* Quizzical Raised Brows on Poke */
-            <g stroke="#18181b" strokeWidth="1.8" strokeLinecap="round">
-              <path d="M 19 20 Q 24 16 28 19" />
-              <path d="M 36 21 Q 40 22 45 20" />
-            </g>
-          ) : (
-            /* Sleek Confident Brows */
-            <g stroke="#18181b" strokeWidth="1.8" strokeLinecap="round">
-              <path d="M 19 22 Q 24 19 28 22" />
-              <path d="M 36 22 Q 40 19 45 22" />
-            </g>
-          )}
+          {/* Cool Resting Eyebrows */}
+          <g stroke="#18181b" strokeWidth="1.6" strokeLinecap="round">
+            <path d="M 19 21 Q 24 19 28 21" />
+            <path d="M 36 21 Q 40 19 45 21" />
+          </g>
 
-          {/* Eyes revealed when shades lower on poke */}
-          {isPoking && (
-            <g fill="#18181b">
-              <circle cx="24" cy="24" r="2.2" />
-              <circle cx="40" cy="24" r="2.2" />
-              {/* White reflections */}
-              <circle cx="23.2" cy="23.2" r="0.8" fill="#ffffff" />
-              <circle cx="39.2" cy="23.2" r="0.8" fill="#ffffff" />
-            </g>
-          )}
-
-          {/* Iconic Designer Sunglasses (Mogging Shades) */}
-          <g
-            transform={isPoking ? "translate(0, 5)" : "translate(0, 0)"}
-            className="transition-transform duration-200"
-          >
+          {/* Solid Designer Sunglasses (Always On, Deadpan Cool) */}
+          <g>
             {/* Left Lens */}
             <path
               d="M 15 24 L 29 24 L 28 33 L 17 33 Z"
@@ -265,12 +222,12 @@ export default function LarperCompanion({
               strokeWidth="1.2"
               strokeLinejoin="round"
             />
-            {/* Sleek Bridge */}
+            {/* Bridge */}
             <line x1="28" y1="26" x2="36" y2="26" stroke="#18181b" strokeWidth="2" strokeLinecap="round" />
 
-            {/* Neon Pink Reflections on Lenses */}
+            {/* Reflections on Lenses */}
             {isLoading ? (
-              /* Laser scan pulse while cooking */
+              /* Laser scan pulse while generating */
               <line
                 x1="17"
                 y1="28"
@@ -281,58 +238,39 @@ export default function LarperCompanion({
                 className="animate-pulse"
               />
             ) : isBlinking ? (
-              /* White Glint Flash */
+              /* Crisp White Glint Flash */
               <g stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round">
                 <line x1="19" y1="26" x2="24" y2="31" />
                 <line x1="39" y1="26" x2="44" y2="31" />
               </g>
             ) : (
-              /* Signature Double Pink Neon Glints */
-              <g stroke="#f472b6" strokeWidth="1.4" strokeLinecap="round">
+              /* Signature Pink Neon Glints */
+              <g stroke="#f472b6" strokeWidth="1.3" strokeLinecap="round">
                 <line x1="18" y1="26" x2="23" y2="31" />
-                <line x1="23" y1="26" x2="25" y2="29" opacity="0.6" />
                 <line x1="38" y1="26" x2="43" y2="31" />
-                <line x1="43" y1="26" x2="45" y2="29" opacity="0.6" />
               </g>
             )}
           </g>
 
-          {/* Confident Asymmetrical Mogging Smirk */}
-          {isPoking ? (
-            /* Smirking half-grin with dimple */
-            <g>
-              <path
-                d="M 26 41 Q 32 45 39 39"
-                stroke="#18181b"
-                strokeWidth="2"
-                strokeLinecap="round"
-                fill="none"
-              />
-              <circle cx="40" cy="38" r="0.8" fill="#18181b" />
-            </g>
-          ) : (
-            /* Classic Immaculate Deadpan Smirk */
-            <g>
-              <path
-                d="M 26 41 Q 32 44 38 39"
-                stroke="#18181b"
-                strokeWidth="2"
-                strokeLinecap="round"
-                fill="none"
-              />
-              <circle cx="39" cy="38" r="0.8" fill="#18181b" />
-            </g>
-          )}
+          {/* Deadpan Confident Smirk (Clean line, no goofy dimples) */}
+          <path
+            d="M 26 41 Q 31 43 37 39"
+            stroke="#18181b"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            fill="none"
+          />
 
           {/* Defined Cleft Chin */}
           <line
             x1="32"
             y1="47"
             x2="32"
-            y2="51"
+            y2="50"
             stroke="#18181b"
-            strokeWidth="1.8"
+            strokeWidth="1.6"
             strokeLinecap="round"
+            opacity="0.8"
           />
         </svg>
       </button>
