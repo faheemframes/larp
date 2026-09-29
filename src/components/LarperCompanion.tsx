@@ -114,7 +114,7 @@ export default function LarperCompanion({
 
   return (
     <aside
-      aria-label="the larper companion"
+      aria-label="mr. performative companion"
       className="fixed bottom-28 right-2.5 z-40 flex flex-col items-end pointer-events-none select-none sm:bottom-32 sm:right-4 lg:top-36 lg:bottom-auto lg:right-6 xl:right-12"
     >
       {/* Compact, Non-Overlapping Speech Bubble */}
@@ -128,7 +128,7 @@ export default function LarperCompanion({
           <div className="flex items-center justify-between pb-0.5 border-b border-neutral-100 mb-1">
             <span className="font-mono text-[8px] text-neutral-900 font-bold inline-flex items-center gap-1 uppercase tracking-wider">
               <span className="w-1 h-1 rounded-full bg-pink-500 animate-pulse" />
-              the larper
+              mr. performative
             </span>
             <button
               onClick={() => setBubbleVisible(false)}
@@ -146,111 +146,102 @@ export default function LarperCompanion({
         </div>
       )}
 
-      {/* Cartoon Gigachad Character (Interactive / Pokeable) */}
+      {/* Floating Emoji-Style Face: mr. performative (Interactive / Pokeable) */}
       <button
         onClick={handlePoke}
-        title="poke the larper"
+        title="poke mr. performative"
         className={`pointer-events-auto relative cursor-pointer outline-none transition-transform duration-200 active:scale-90 hover:scale-105 ${
           isPoking ? "scale-105" : ""
         }`}
       >
         <svg
-          width="58"
-          height="64"
-          viewBox="0 0 58 64"
+          width="54"
+          height="54"
+          viewBox="0 0 54 54"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="drop-shadow-md filter"
         >
           {/* Subtle Ground Shadow */}
-          <ellipse cx="29" cy="62" rx="14" ry="2" fill="#18181b" opacity="0.08" />
+          <ellipse cx="27" cy="51" rx="14" ry="2.5" fill="#18181b" opacity="0.1" />
 
-          {/* Strong Traps / Neck Silhouette */}
+          {/* Clean Chiseled Face Silhouette (Face-only Emoji Avatar) */}
           <path
-            d="M 18 48 L 12 60 L 46 60 L 40 48 Z"
+            d="M 12 18 Q 12 10 27 10 Q 42 10 42 18 L 41 33 Q 41 44 27 49 Q 13 44 13 33 Z"
             fill="#ffffff"
             stroke="#18181b"
             strokeWidth="1.8"
             strokeLinejoin="round"
           />
 
-          {/* Iconic Gigachad Chiseled Head & Razor-Sharp Jawline */}
-          <path
-            d="M 16 22 L 15 36 Q 16 46 29 53 Q 42 46 43 36 L 42 22 Z"
-            fill="#ffffff"
-            stroke="#18181b"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-
           {/* High Angular Cheekbones */}
           <path
-            d="M 16 32 L 20 37"
+            d="M 14 29 L 18 33"
             stroke="#18181b"
-            strokeWidth="1.4"
+            strokeWidth="1.3"
             strokeLinecap="round"
           />
           <path
-            d="M 42 32 L 38 37"
+            d="M 40 29 L 36 33"
             stroke="#18181b"
-            strokeWidth="1.4"
+            strokeWidth="1.3"
             strokeLinecap="round"
           />
 
-          {/* Iconic Swept-Back Voluminous Chad Hair */}
+          {/* Swept-Back Chad Hair Pompadour */}
           <path
-            d="M 13 24 Q 10 12 20 7 Q 29 2 40 6 Q 48 10 44 24 Q 38 15 28 15 Q 18 15 13 24 Z"
+            d="M 10 19 Q 8 8 18 5 Q 27 2 36 5 Q 46 8 44 19 Q 38 12 27 12 Q 16 12 10 19 Z"
             fill="#18181b"
             stroke="#18181b"
             strokeWidth="1.5"
             strokeLinejoin="round"
           />
-          {/* Hair Highlight Strand */}
+          {/* Hair Pink Highlight Strand */}
           <path
-            d="M 22 8 Q 30 5 38 9"
+            d="M 20 6 Q 27 3 34 6"
             stroke="#f472b6"
             strokeWidth="1.5"
             strokeLinecap="round"
           />
 
-          {/* Sleek Dark Chad Sunglasses */}
+          {/* Sleek Dark Sunglasses */}
           <g
             transform={isPoking ? "translate(0, 2)" : "translate(0, 0)"}
             className="transition-transform duration-150"
           >
             {/* Left & Right Lenses with sharp angular curve */}
             <path
-              d="M 16 26 L 27 26 L 26 34 L 18 34 Z"
+              d="M 15 22 L 25 22 L 24 30 L 17 30 Z"
               fill="#18181b"
               stroke="#18181b"
-              strokeWidth="1.2"
+              strokeWidth="1.1"
             />
             <path
-              d="M 31 26 L 42 26 L 40 34 L 32 34 Z"
+              d="M 29 22 L 39 22 L 37 30 L 30 30 Z"
               fill="#18181b"
               stroke="#18181b"
-              strokeWidth="1.2"
+              strokeWidth="1.1"
             />
             {/* Bridge */}
-            <line x1="27" y1="28" x2="31" y2="28" stroke="#18181b" strokeWidth="1.8" />
+            <line x1="25" y1="24" x2="29" y2="24" stroke="#18181b" strokeWidth="1.8" />
 
             {/* Neon Pink Glint on Sunglasses */}
             {isLoading ? (
               <line
-                x1="18"
-                y1="30"
-                x2="40"
-                y2="30"
+                x1="17"
+                y1="26"
+                x2="37"
+                y2="26"
                 stroke="#f472b6"
                 strokeWidth="1.8"
                 className="animate-pulse"
               />
             ) : isBlinking ? (
               <line
-                x1="20"
-                y1="28"
-                x2="24"
-                y2="33"
+                x1="18"
+                y1="24"
+                x2="22"
+                y2="29"
                 stroke="#ffffff"
                 strokeWidth="1.6"
                 strokeLinecap="round"
@@ -258,32 +249,32 @@ export default function LarperCompanion({
             ) : (
               <>
                 <line
-                  x1="19"
-                  y1="28"
-                  x2="23"
-                  y2="33"
+                  x1="18"
+                  y1="24"
+                  x2="22"
+                  y2="29"
                   stroke="#f472b6"
-                  strokeWidth="1.4"
+                  strokeWidth="1.3"
                   strokeLinecap="round"
                 />
                 <line
-                  x1="34"
-                  y1="28"
-                  x2="38"
-                  y2="33"
+                  x1="32"
+                  y1="24"
+                  x2="36"
+                  y2="29"
                   stroke="#f472b6"
-                  strokeWidth="1.4"
+                  strokeWidth="1.3"
                   strokeLinecap="round"
                 />
               </>
             )}
           </g>
 
-          {/* Confident Chiseled Chad Smirk */}
+          {/* Confident Mogging Smirk */}
           {isPoking ? (
             /* Winking / Laughing Smirk */
             <path
-              d="M 24 42 Q 29 46 34 41"
+              d="M 23 38 Q 27 42 32 37"
               stroke="#18181b"
               strokeWidth="1.8"
               strokeLinecap="round"
@@ -292,7 +283,7 @@ export default function LarperCompanion({
           ) : (
             /* Classic Immaculate Mogging Smirk */
             <path
-              d="M 24 42 Q 29 44 35 39"
+              d="M 23 38 Q 27 40 33 36"
               stroke="#18181b"
               strokeWidth="1.8"
               strokeLinecap="round"
@@ -302,22 +293,13 @@ export default function LarperCompanion({
 
           {/* Strong Chin Cleft */}
           <line
-            x1="29"
-            y1="47"
-            x2="29"
-            y2="50"
-            stroke="#18181b"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-          />
-
-          {/* Collar / V-neck detail */}
-          <path
-            d="M 23 55 L 29 60 L 35 55"
+            x1="27"
+            y1="43"
+            x2="27"
+            y2="46"
             stroke="#18181b"
             strokeWidth="1.5"
-            strokeLinejoin="round"
-            fill="none"
+            strokeLinecap="round"
           />
         </svg>
       </button>
