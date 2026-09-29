@@ -117,6 +117,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => null);
     const text = typeof body?.text === "string" ? body.text.trim() : "";
     const seed = typeof body?.seed === "number" ? body.seed : 0;
+    const intensity =
+      body?.intensity === "casual" || body?.intensity === "existential"
+        ? body.intensity
+        : "unbearable";
 
     if (!text) {
       return NextResponse.json(
@@ -140,8 +144,16 @@ export async function POST(req: NextRequest) {
         success: true,
         original: text.toLowerCase(),
         larp: getSmartFallback(text, seed),
+        intensity,
       });
     }
+
+    const intensityGuidance =
+      intensity === "casual"
+        ? "tone: casual snob. 1 to 2 punchy sentences (25 to 45 words). dry, dismissive, razor-sharp elitism with one ultra-specific detail. like a quick dismissive iMessage reply."
+        : intensity === "existential"
+        ? "tone: existential crisis. 3 to 4 sentences (75 to 110 words). maximalist unhinged commitment. treat this mundane action as an epochal turning point for human consciousness, history, and spiritual collapse."
+        : "tone: unbearable lore. 2 to 3 sentences (45 to 75 words). rich internet subculture lore, hyper-specific technical jargon, unhinged confidence.";
 
     const userPrompt = `replace this statement with an authentic, grounded, funny internet monologue for chat:
 "${text}"
@@ -151,7 +163,7 @@ instructions:
 - ABSOLUTELY NO AI WORDS: no tapestry, symphony, celestial, alchemy, ethereal, sacred, dance, myriad, testament.
 - NO AI FORMULA: do not use "x isn't just y, it's z" or "saying x feels reductive".
 - strictly lowercase.
-- 45 to 75 words max.
+- ${intensityGuidance}
 - variation seed: ${seed}.`;
 
     // Multi-model cascade across resilient models
@@ -170,7 +182,7 @@ instructions:
 
         const generationConfig: Record<string, unknown> = {
           temperature: 0.95,
-          maxOutputTokens: 250,
+          maxOutputTokens: 350,
         };
 
         if (model.includes("2.5")) {

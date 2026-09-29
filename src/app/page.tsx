@@ -2,17 +2,22 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, Copy, Check, Share2, RotateCcw, AlertCircle, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Copy,
+  Check,
+  Share2,
+  RotateCcw,
+  AlertCircle,
+  Sparkles,
+  Dices,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { getRandomPrompt, getRandomPromptBatch } from "@/lib/prompts";
+import { sound } from "@/lib/sound";
 
-const EXAMPLE_PROMPTS = [
-  "i study comp sci",
-  "i like ronaldo",
-  "i like messi",
-  "i drink coffee",
-  "i watch anime",
-  "i play valorant",
-  "i like mechanical keyboards",
-];
+type IntensityMode = "casual" | "unbearable" | "existential";
 
 const LOADING_STEPS = [
   "consulting 3am group chats...",
@@ -31,11 +36,19 @@ export default function LarpApp() {
   const [copied, setCopied] = useState(false);
   const [shareToast, setShareToast] = useState(false);
   const [variationCount, setVariationCount] = useState(0);
+  const [intensity, setIntensity] = useState<IntensityMode>("unbearable");
+  const [isMuted, setIsMuted] = useState(false);
+  const [promptBatch, setPromptBatch] = useState<string[]>([]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const canShare = typeof navigator !== "undefined" && Boolean(navigator.share);
+
+  useEffect(() => {
+    setIsMuted(sound.muted);
+    setPromptBatch(getRandomPromptBatch(5));
+  }, []);
 
   useEffect(() => {
     if (!loading) return;
@@ -51,10 +64,36 @@ export default function LarpApp() {
   const isOverLimit = charCount > 300;
   const canSubmit = trimmed.length > 0 && !isOverLimit && !loading;
 
+  const handleToggleMute = () => {
+    const nextMuted = sound.toggleMute();
+    setIsMuted(nextMuted);
+  };
+
+  const handleSurpriseMe = () => {
+    sound.playShuffle();
+    const random = getRandomPrompt(input);
+    setInput(random);
+    setError(null);
+    setPromptBatch(getRandomPromptBatch(5));
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
+  const handleSelectExample = (prompt: string) => {
+    sound.playClick();
+    setInput(prompt);
+    setError(null);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
   const handleGenerate = async (textToLarp?: string, isReroll: boolean = false) => {
     const targetText = (textToLarp ?? input).trim();
     if (!targetText || targetText.length > 300 || loading) return;
 
+    sound.playClick();
     setLoading(true);
     setLoadingStepIndex(0);
     setError(null);
@@ -73,6 +112,7 @@ export default function LarpApp() {
         body: JSON.stringify({
           text: targetText.toLowerCase(),
           seed: nextSeed,
+          intensity,
         }),
       });
 
@@ -87,6 +127,7 @@ export default function LarpApp() {
 
       setOriginalMessage(data.original || targetText.toLowerCase());
       setLarpResult(data.larp);
+      sound.playPop();
 
       setTimeout(() => {
         resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -107,18 +148,11 @@ export default function LarpApp() {
     }
   };
 
-  const handleSelectExample = (prompt: string) => {
-    setInput(prompt);
-    setError(null);
-    if (textareaRef.current) {
-      textareaRef.current.focus();
-    }
-  };
-
   const handleCopy = async () => {
     if (!larpResult) return;
     try {
       await navigator.clipboard.writeText(larpResult);
+      sound.playChime();
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -128,34 +162,48 @@ export default function LarpApp() {
       textArea.select();
       document.execCommand("copy");
       document.body.removeChild(textArea);
+      sound.playChime();
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
+  const getFormattedShareText = () => {
+    if (!larpResult) return "";
+    const msg = originalMessage || input;
+    return `say this instead of "${msg}":\n\n${larpResult}\n\n— the larp machine\nhttps://thelarpmachine.vercel.app`;
+  };
+
   const handleShare = async () => {
     if (!larpResult) return;
+    const shareText = getFormattedShareText();
 
     if (canShare && navigator.share) {
       try {
         await navigator.share({
           title: "the larp machine",
-          text: larpResult,
-          url: window.location.href,
+          text: shareText,
+          url: "https://thelarpmachine.vercel.app",
         });
+        sound.playChime();
       } catch (err) {
         if ((err as Error).name !== "AbortError") {
-          handleCopy();
+          await navigator.clipboard.writeText(shareText);
+          sound.playChime();
+          setShareToast(true);
+          setTimeout(() => setShareToast(false), 2000);
         }
       }
     } else {
-      await handleCopy();
+      await navigator.clipboard.writeText(shareText);
+      sound.playChime();
       setShareToast(true);
       setTimeout(() => setShareToast(false), 2000);
     }
   };
 
   const handleReset = () => {
+    sound.playClick();
     setLarpResult(null);
     setOriginalMessage(null);
     setError(null);
@@ -169,7 +217,20 @@ export default function LarpApp() {
   return (
     <main className="min-h-screen flex flex-col justify-between px-4 py-8 sm:py-12 max-w-lg mx-auto w-full">
       {/* Minimal Header */}
-      <header className="text-center pb-6 sm:pb-8">
+      <header className="relative text-center pb-5 sm:pb-7">
+        <div className="absolute right-0 top-0">
+          <button
+            onClick={handleToggleMute}
+            title={isMuted ? "unmute sfx" : "mute sfx"}
+            className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition-colors cursor-pointer select-none"
+          >
+            {isMuted ? (
+              <VolumeX className="w-3.5 h-3.5 text-neutral-400" />
+            ) : (
+              <Volume2 className="w-3.5 h-3.5 text-pink-500" />
+            )}
+          </button>
+        </div>
         <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-neutral-900 mb-1.5 lowercase">
           the larp machine<span className="text-pink-400">.</span>
         </h1>
@@ -179,7 +240,33 @@ export default function LarpApp() {
       </header>
 
       {/* Main Interaction Area */}
-      <section className="w-full flex-1 flex flex-col gap-4">
+      <section className="w-full flex-1 flex flex-col gap-3.5">
+        {/* Subtle Lore Intensity Pill Bar */}
+        <div className="flex items-center justify-center gap-1 p-0.5 rounded-full bg-neutral-100/90 border border-neutral-200/50 w-fit mx-auto text-[11px] font-mono lowercase select-none">
+          {(
+            [
+              { id: "casual", label: "casual snob" },
+              { id: "unbearable", label: "unbearable lore" },
+              { id: "existential", label: "existential crisis" },
+            ] as const
+          ).map((mode) => (
+            <button
+              key={mode.id}
+              onClick={() => {
+                setIntensity(mode.id);
+                sound.playClick();
+              }}
+              className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
+                intensity === mode.id
+                  ? "bg-white text-neutral-900 shadow-xs font-medium border border-neutral-200/60"
+                  : "text-neutral-500 hover:text-neutral-800"
+              }`}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </div>
+
         {/* Compact Input Box Card */}
         <div className="bg-white border border-pink-100/90 rounded-2xl p-3.5 sm:p-4 shadow-sm shadow-pink-100/40 transition-all focus-within:border-pink-300 focus-within:ring-2 focus-within:ring-pink-100/50">
           <textarea
@@ -226,9 +313,17 @@ export default function LarpApp() {
           </div>
         </div>
 
-        {/* Clickable Example Chips */}
-        <div className="flex flex-wrap gap-1.5 justify-center">
-          {EXAMPLE_PROMPTS.map((prompt) => (
+        {/* Clickable Example Chips + Surprise Me Roulette */}
+        <div className="flex flex-wrap gap-1.5 justify-center items-center">
+          <button
+            onClick={handleSurpriseMe}
+            disabled={loading}
+            className="inline-flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200/70 transition-all cursor-pointer active:scale-95 lowercase shadow-xs select-none"
+          >
+            <Dices className="w-3.5 h-3.5 text-pink-500" />
+            <span>surprise me</span>
+          </button>
+          {promptBatch.map((prompt) => (
             <button
               key={prompt}
               onClick={() => handleSelectExample(prompt)}
@@ -249,14 +344,14 @@ export default function LarpApp() {
             </div>
             <button
               onClick={() => handleGenerate()}
-              className="text-[11px] font-mono underline hover:text-pink-950 shrink-0 cursor-pointer"
+              className="underline hover:text-pink-950 font-medium cursor-pointer"
             >
               retry
             </button>
           </div>
         )}
 
-        {/* Loading State */}
+        {/* Minimal Loading State */}
         {loading && (
           <div className="p-4 rounded-xl bg-white/70 border border-pink-100 text-center flex flex-col items-center justify-center gap-2 animate-soft-pulse">
             <div className="w-4 h-4 rounded-full border-2 border-pink-400 border-t-transparent animate-spin" />
@@ -320,7 +415,7 @@ export default function LarpApp() {
 
                   {shareToast && (
                     <span className="text-[11px] text-pink-600 font-mono lowercase">
-                      copied!
+                      copied for dm / tweet!
                     </span>
                   )}
                 </div>
