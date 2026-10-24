@@ -155,6 +155,9 @@ export async function POST(req: NextRequest) {
         ? "tone: existential crisis. 3 to 4 sentences (75 to 110 words). maximalist unhinged commitment. treat this mundane action as an epochal turning point for human consciousness, history, and spiritual collapse."
         : "tone: unbearable lore. 2 to 3 sentences (45 to 75 words). rich internet subculture lore, hyper-specific technical jargon, unhinged confidence.";
 
+    const tokenBudget =
+      intensity === "casual" ? 80 : intensity === "existential" ? 180 : 130;
+
     const userPrompt = `replace this statement with an authentic, grounded, funny internet monologue for chat:
 "${text}"
 
@@ -166,63 +169,69 @@ instructions:
 - ${intensityGuidance}
 - variation seed: ${seed}.`;
 
-    // Multi-model cascade across resilient models
-    const models = [
-      "gemini-3.5-flash-lite",
-      "gemini-3-flash-preview",
-      "gemini-2.5-flash-lite",
-      "gemini-2.5-flash",
-    ];
+    const callModel = async (model: string, timeoutMs: number = 3000): Promise<string> => {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const generationConfig: Record<string, unknown> = {
+        temperature: 0.95,
+        maxOutputTokens: tokenBudget,
+      };
+
+      if (model.includes("2.5")) {
+        generationConfig.thinkingConfig = { thinkingBudget: 0 };
+      }
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: SYSTEM_INSTRUCTION }],
+          },
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: userPrompt }],
+            },
+          ],
+          generationConfig,
+        }),
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Model ${model} failed with HTTP ${response.status}`);
+      }
+
+      const data = (await response.json()) as GeminiResponse;
+      const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+
+      if (!candidateText) {
+        throw new Error(`Model ${model} returned empty candidate`);
+      }
+
+      return candidateText;
+    };
 
     let generatedLarp = "";
 
-    for (const model of models) {
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-        const generationConfig: Record<string, unknown> = {
-          temperature: 0.95,
-          maxOutputTokens: 350,
-        };
-
-        if (model.includes("2.5")) {
-          generationConfig.thinkingConfig = { thinkingBudget: 0 };
+    // Fast-path: race the top 2 fastest models in parallel for sub-second response
+    try {
+      generatedLarp = await Promise.any([
+        callModel("gemini-2.5-flash-lite", 2500),
+        callModel("gemini-3-flash-preview", 2500),
+      ]);
+    } catch {
+      // Fallback path: try secondary models sequentially if race fails
+      const fallbackModels = ["gemini-3.5-flash-lite", "gemini-2.5-flash"];
+      for (const m of fallbackModels) {
+        try {
+          generatedLarp = await callModel(m, 3500);
+          if (generatedLarp) break;
+        } catch {
+          // Continue to next fallback
         }
-
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            systemInstruction: {
-              parts: [{ text: SYSTEM_INSTRUCTION }],
-            },
-            contents: [
-              {
-                role: "user",
-                parts: [{ text: userPrompt }],
-              },
-            ],
-            generationConfig,
-          }),
-        });
-
-        if (!response.ok) {
-          const errData = await response.json().catch(() => null);
-          console.warn(`Model ${model} returned status ${response.status}:`, errData?.error?.message?.slice(0, 100));
-          continue;
-        }
-
-        const data = (await response.json()) as GeminiResponse;
-        const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-        if (candidateText) {
-          generatedLarp = candidateText;
-          break;
-        }
-      } catch (err) {
-        console.warn(`Error contacting model ${model}:`, err);
       }
     }
 
