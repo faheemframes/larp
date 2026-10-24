@@ -98,8 +98,53 @@ function getSmartFallback(text: string, seed: number = 0): string {
   return genericTakes[seed % genericTakes.length];
 }
 
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+
+// Sanitizes input string to prevent control character injection and buffer abuses
+function sanitizeInput(input: string): string {
+  return input
+    .normalize("NFC")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    .trim();
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // 1. IP-based Rate Limiting (30 requests per minute per IP)
+    const clientIp = getClientIp(req);
+    const rateLimit = checkRateLimit(`larp:${clientIp}`, {
+      windowMs: 60 * 1000,
+      maxRequests: 30,
+    });
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "too many requests. please chill out and try again in a few seconds.",
+          code: "RATE_LIMITED",
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimit.resetSeconds),
+            "X-RateLimit-Limit": String(rateLimit.limit),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": String(rateLimit.resetSeconds),
+          },
+        }
+      );
+    }
+
+    // 2. Payload size check (prevent memory blowup before heavy processing)
+    const contentLength = req.headers.get("content-length");
+    if (contentLength && parseInt(contentLength, 10) > 10000) {
+      return NextResponse.json(
+        { success: false, error: "payload too large." },
+        { status: 413 }
+      );
+    }
+
     const apiKey = process.env.GEMINI_API_KEY?.trim();
 
     if (!apiKey) {
@@ -115,8 +160,10 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json().catch(() => null);
-    const text = typeof body?.text === "string" ? body.text.trim() : "";
-    const seed = typeof body?.seed === "number" ? body.seed : 0;
+    const rawText = typeof body?.text === "string" ? body.text : "";
+    const text = sanitizeInput(rawText);
+    const rawSeed = typeof body?.seed === "number" ? body.seed : 0;
+    const seed = Math.max(0, Math.floor(rawSeed)) || 0;
     const intensity =
       body?.intensity === "casual" || body?.intensity === "existential"
         ? body.intensity

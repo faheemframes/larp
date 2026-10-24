@@ -50,11 +50,20 @@ export default function LarperCompanion({
     return () => clearInterval(glintInterval);
   }, []);
 
+  const triggerPose = React.useCallback(() => {
+    setIsPoking(true);
+    setTimeout(() => setIsPoking(false), 350);
+  }, []);
+
   // React to loading state
   useEffect(() => {
     if (isLoading && !prevLoadingRef.current) {
-      setBubbleText("cooking lore... lock in.");
-      setBubbleVisible(true);
+      const timer = setTimeout(() => {
+        setBubbleText("cooking lore... lock in.");
+        setBubbleVisible(true);
+      }, 0);
+      prevLoadingRef.current = isLoading;
+      return () => clearTimeout(timer);
     }
     prevLoadingRef.current = isLoading;
   }, [isLoading]);
@@ -62,33 +71,37 @@ export default function LarperCompanion({
   // React to generation finish
   useEffect(() => {
     if (hasResult && !prevResultRef.current && !isLoading) {
-      if (intensity === "existential") {
-        setBubbleText("existential crisis unlocked.");
-      } else if (intensity === "casual") {
-        setBubbleText("short. dismissive. elite.");
-      } else {
-        setBubbleText("paste it and mute the thread.");
-      }
-      setBubbleVisible(true);
-      triggerPose();
+      const timer = setTimeout(() => {
+        if (intensity === "existential") {
+          setBubbleText("existential crisis unlocked.");
+        } else if (intensity === "casual") {
+          setBubbleText("short. dismissive. elite.");
+        } else {
+          setBubbleText("paste it and mute the thread.");
+        }
+        setBubbleVisible(true);
+        triggerPose();
+      }, 0);
+      prevResultRef.current = hasResult;
+      return () => clearTimeout(timer);
     }
     prevResultRef.current = hasResult;
-  }, [hasResult, isLoading, intensity]);
+  }, [hasResult, isLoading, intensity, triggerPose]);
 
   // React to copy
   useEffect(() => {
     if (isCopied && !prevCopiedRef.current) {
-      setBubbleText("copied. they aren't ready.");
-      setBubbleVisible(true);
-      triggerPose();
+      const timer = setTimeout(() => {
+        setBubbleText("copied. they aren't ready.");
+        setBubbleVisible(true);
+        triggerPose();
+      }, 0);
+      prevCopiedRef.current = isCopied;
+      return () => clearTimeout(timer);
     }
     prevCopiedRef.current = isCopied;
-  }, [isCopied]);
+  }, [isCopied, triggerPose]);
 
-  const triggerPose = () => {
-    setIsPoking(true);
-    setTimeout(() => setIsPoking(false), 350);
-  };
 
   const handlePoke = () => {
     sound.playSqueak();

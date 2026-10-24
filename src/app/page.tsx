@@ -47,8 +47,11 @@ export default function LarpApp() {
   const canShare = typeof navigator !== "undefined" && Boolean(navigator.share);
 
   useEffect(() => {
-    setIsMuted(sound.muted);
-    setPromptBatch(getRandomPromptBatch(5));
+    const timer = setTimeout(() => {
+      setIsMuted(sound.muted);
+      setPromptBatch(getRandomPromptBatch(5));
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

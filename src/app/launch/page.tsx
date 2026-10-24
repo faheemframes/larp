@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Play, Pause, RotateCcw, Download, Sparkles, ArrowLeft, Smartphone, Monitor } from "lucide-react";
+import { Play, Pause, RotateCcw, Download, ArrowLeft, Smartphone, Monitor } from "lucide-react";
 
 export default function LaunchVideoPage() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -441,6 +441,12 @@ export default function LaunchVideoPage() {
     ctx.restore();
   };
 
+  const stopRecording = React.useCallback(() => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+    }
+  }, []);
+
   // Main animation tick
   useEffect(() => {
     let lastTime = currentTime;
@@ -475,7 +481,7 @@ export default function LaunchVideoPage() {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [isPlaying]);
+  }, [isPlaying, isRecording, currentTime, stopRecording]);
 
   const handleTogglePlay = () => {
     if (currentTime >= TOTAL_DURATION) {
@@ -527,11 +533,6 @@ export default function LaunchVideoPage() {
     }
   };
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      mediaRecorderRef.current.stop();
-    }
-  };
 
   return (
     <main className="min-h-screen flex flex-col justify-between p-4 sm:p-8 max-w-4xl mx-auto w-full text-neutral-900">
