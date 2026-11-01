@@ -7,7 +7,9 @@ import {
   useVideoConfig,
   Easing,
   Sequence,
+  staticFile,
 } from "remotion";
+import { Audio } from "@remotion/media";
 import { MrPerformativeMascot } from "./MrPerformativeMascot";
 
 export interface LaunchVideoProps {
@@ -673,6 +675,40 @@ export const LaunchVideo: React.FC<LaunchVideoProps> = ({ aspectRatio = "16:9" }
           opacity: 0.6,
         }}
       />
+
+      {/* Sound Effects Sequenced Across Beats */}
+      {/* Beat 1: Initial Whoosh / Arrival */}
+      <Sequence from={5} durationInFrames={30}>
+        <Audio src={staticFile("sfx/whoosh.wav")} volume={0.4} />
+      </Sequence>
+
+      {/* Beat 2: Cliché detected alert / switch */}
+      <Sequence from={75} durationInFrames={30}>
+        <Audio src={staticFile("sfx/switch.wav")} volume={0.45} />
+      </Sequence>
+
+      {/* Beat 3: Act 2 Scene Transition Whoosh */}
+      <Sequence from={150} durationInFrames={30}>
+        <Audio src={staticFile("sfx/whoosh.wav")} volume={0.5} />
+      </Sequence>
+
+      {/* Beat 4: Dialing intensity modes (clicks) */}
+      <Sequence from={190} durationInFrames={25}>
+        <Audio src={staticFile("sfx/mouse-click.wav")} volume={0.6} />
+      </Sequence>
+      <Sequence from={230} durationInFrames={25}>
+        <Audio src={staticFile("sfx/mouse-click.wav")} volume={0.65} />
+      </Sequence>
+
+      {/* Beat 5: Act 3 Monologue Generation Ding / Chime */}
+      <Sequence from={300} durationInFrames={45}>
+        <Audio src={staticFile("sfx/ding.wav")} volume={0.55} />
+      </Sequence>
+
+      {/* Beat 6: Act 4 Outro Fanfare Ding */}
+      <Sequence from={460} durationInFrames={50}>
+        <Audio src={staticFile("sfx/ding.wav")} volume={0.6} />
+      </Sequence>
 
       {/* Act 1: The Problem (0 to 5s = 150 frames) */}
       <Sequence from={0} durationInFrames={150}>
