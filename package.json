@@ -14,6 +14,7 @@
     "@remotion/media": "4.0.539",
     "@remotion/player": "4.0.539",
     "@remotion/shapes": "4.0.539",
+    "@vercel/analytics": "^2.0.1",
     "lucide-react": "^1.47.0",
     "next": "^16.4.3",
     "react": "19.2.8",
